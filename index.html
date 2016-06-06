@@ -44,6 +44,139 @@
         </div>
     </section>
 
+    <section class="slide prism">
+        <h2>"LATER" is not always followed by "NOW"</h2>
+
+        <pre style="font-size: 45px;" class="place language-javascript line-numbers">
+            <code>
+                var counter = 0;
+                setTimeout(() => counter++, 0);
+                console.log(counter);
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <img src="pictures/presentation/eventLoop.png" style="width: 100%;" alt="" class="place">
+    </section>
+
+    <section class="slide">
+        <img src="pictures/presentation/evtLpFirstStep.png" style="width: 100%;" alt="" class="place">
+    </section>
+
+    <section class="slide">
+        <img src="pictures/presentation/evtLpScndStep.png" style="width: 100%;" alt="" class="place">
+    </section>
+
+    <section class="slide">
+        <h2>Use case: Login Page</h2>
+        <ol>
+            <li>User enters his <mark>login</mark> and <mark>password</mark></li>
+            <li>User object is fetched form the database</li>
+            <li>We calculate <mark>hash</mark> value based on the <mark>password</mark> and <mark>user.salt</mark></li>
+            <li>If <mark>hash</mark> equals <mark>user.hash</mark> - user is logged in</li>
+        </ol>
+    </section>
+
+
+    <section class="slide prism">
+        <h2>Callbacks</h2>
+
+        <pre style="font-size: 30px;" class="language-javascript line-numbers">
+            <code>
+                getUser(
+                  login, password, (err, user) => {
+                    if(!err) {
+                      var hash = calculateHash(
+                        password, user.salt, () => {
+                           if(user.hash != hash) {
+                             throw new Error('Incorrect password');
+                           }
+                      });
+                }});
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism"
+             style="background-position: center;
+             background-image: url('./pictures/presentation/triangleBackground.png')"
+    >
+        <h2>Callbacks</h2>
+
+        <pre style="font-size: 30px;" class="language-javascript line-numbers">
+            <code>
+                getUser(
+                  login, password, (err, user) => {
+                    if(!err) {
+                      var hash = calculateHash(
+                        password, user.salt, () => {
+                           if(user.hash != hash) {
+                             throw new Error('Incorrect password');
+                           }
+                      });
+                }});
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <img src="pictures/presentation/callbackHell.png" style="width: 100%;" alt="" class="place">
+    </section>
+
+
+    <section class="slide prism">
+        <h2>Promises</h2>
+
+        <pre style="font-size: 45px;" class="place language-javascript line-numbers">
+            <code>
+                Promise.resolve(p)
+                  .then(
+                    function fulfilled(val) { },
+                    function  rejected(err) { }
+                );
+
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism">
+        <h2>Promises</h2>
+
+        <pre style="font-size: 30px;" class="language-javascript line-numbers">
+            <code>
+                getUser(login, password)
+                  .then(user => Promise.all(
+                    user, calculateHash(password, user.salt)
+                  ))
+                  .then(([user, hash]) => {
+                    if(user.hash != hash) {
+                      throw new Error('Incorrect password');
+                  }})
+                  .catch(err => { ... });
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <img src="pictures/presentation/promisePatterns.png" style="width: 100%;" alt="" class="place">
+    </section>
+
+    <section class="slide prism">
+        <h2>Generators</h2>
+
+        <pre style="font-size: 45px;" class="place language-javascript line-numbers">
+            <code>
+                function *generator() {
+                  //...
+                  yield;
+                  //...
+                }
+
+            </code>
+        </pre>
+    </section>
+
     <section class="slide">
         <h2>Presentation structure</h2>
         <ol>
@@ -55,6 +188,8 @@
         </ol>
         <p class="next">Before they sold out master</p>
     </section>
+
+
 
     <section class="slide">
         <h2>Please update slides:</h2>
